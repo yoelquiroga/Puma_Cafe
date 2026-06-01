@@ -1,0 +1,146 @@
+
+<!-- HEADER --- NAVBAR -->
+<div th:fragment="header">
+	<header class="header">
+		<a th:href="@{/}" class="logo"> <img src="/img/logoPuma.png"
+			alt="" /></a>
+
+
+		<nav class="navbar">
+			<a th:href="@{/}">Inicio</a> 
+			<a th:href="@{/tienda}">Tienda</a> 
+			<a th:href="@{/cafeteria}">Cafetería</a> 
+			<a th:href="@{/encuentranos}">Encuéntranos</a>
+			<a th:href="@{/historia}">Histroria</a>
+		</nav>
+
+		<div class="icons">
+			<div class="fas fa-bars" id="menu-btn"></div>
+			<div class="fas fa-search" id="search-btn"></div>
+			
+			<a th:if="${session.user == null}" th:href="@{/login}" class="fas fa-user" id="login-btn"></a>
+			<a th:if="${session.user != null}" th:href="@{/logout}" class="fas fa-sign-out-alt" id="logout-btn"></a>
+			
+			<a th:if="${session.user != null}" th:href="@{/misPedidos}" class="fas fa-clipboard-list" id="pedidos-btn" style="color: #000; font-size: 2rem; margin: 0 0.5rem; text-decoration: none; background: #eee; border-radius: 0.5rem; width: 4.5rem; height: 4.5rem; line-height: 4.5rem; text-align: center;" title="Mis Pedidos"></a>
+			
+			<div class="fas fa-shopping-cart" id="cart-icon">
+				<div class="count-products">
+					<span id="contador-productos">0</span>
+				</div>
+			</div>
+		</div>
+		
+
+		<!-- Carrito de Compras -->
+		<div class="cart">
+			<h2 class="cart-title">Carrito</h2>
+			<!-- contenido -->
+			<div class="cart-content"></div>
+			<!-- total -->
+			<div class="total">
+				<div class="total-title">Total</div>
+				<div class="total-price">S/0</div>
+			</div>
+			<!-- boton -->
+			 <div>
+    <a th:href="@{/realizarPedido}" class="btn btn-buy" style="margin-left: 0.5rem; margin-right: 0.5rem;">Realizar Pedido</a>
+	</div>
+
+			<!-- boton cerrar -->
+			<i class="fa-solid fa-xmark" id="cart-close"></i>
+		</div>
+		<!-- --- -->
+
+		<!-- buscador -->
+		<form action="" class="search-form">
+			<input type="search" id="search-box" class="box"
+				placeholder="search-here..." /> <label for="search-box"
+				class="fas fa-search"></label>
+		</form>
+
+		<div class="shopping-cart"></div>
+	</header>
+
+</div>
+
+
+
+
+
+<div th:fragment="footer">
+	<!--whatsapp flotante-->
+	<a
+		href="https://api.whatsapp.com/send?phone=984247724&text=QUIERO CAFE"
+		class="btn-wsp" target="_blank"> <i class="fa fa-whatsapp icono"></i>
+	</a>
+	<!-- FOOTER -->
+
+	<footer class="footer">
+		<div class="container container-footer">
+			<div class="menu-footer">
+				<div class="contact-info">
+					<img src="/img/logoPuma.png" alt="logo" />
+					<ul>
+						<li>CENTRAL DE ORGANIZACIONES PRODUCTORAS DE CAFÉ Y CACAO DEL
+							PERÚ - CAFE PERU</li>
+						<li>RUC 20506370346</li>
+						<li>Av. Arenales 1199, Santa Beatriz, Lima</li>
+						<li>(511) 265 3844</li>
+						<li>(51) 984 247 724</li>
+						<li class="verde">ventas@centralcafeycacao.org</li>
+					</ul>
+					<div class="social-icons">
+						<span class="facebook"> <!-- <i class="fa-brands fa-facebook-f"></i> -->
+							<a href="https://www.facebook.com/pumacafeorganico"
+							target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+						</span> <span class="instagram"> <!-- <i class="fa-brands fa-instagram"></i> -->
+							<a href="https://www.instagram.com/pumacafe/" target="_blank"><i
+								class="fa-brands fa-instagram"></i></a>
+						</span>
+					</div>
+				</div>
+
+				<div class="information">
+					<p class="title-footer">Enlaces</p>
+					<ul>
+						<li><a th:href="@{/}"><i class="fas fa-arrow-right"></i>
+								Inicio</a></li>
+						<li><a th:href="@{/tienda}"><i class="fas fa-arrow-right"></i>
+								Tienda</a></li>
+						<li><a th:href="@{/cafeteria}"><i
+								class="fas fa-arrow-right"></i> Cafetería</a></li>
+						<li><a th:href="@{/encuentranos}"><i
+								class="fas fa-arrow-right"></i> Encuéntranos</a></li>
+						<li><a th:href="@{/historia}"><i
+								class="fas fa-arrow-right"></i> Historia</a></li>
+					</ul>
+				</div>
+
+				<div class="newsletter">
+					<p class="title-footer">Boletín Informatico</p>
+
+					<div class="content">
+						<p>Suscríbete a nuestros boletines ahora y mantente al día con
+							nuevas colecciones y ofertas exclusivas.</p>
+						<input type="email" placeholder="Ingresa el correo aquí..." />
+						<!-- <button type="submit">Suscríbete</button> -->
+						<button class="bt" id="bt">
+							<span class="msg" id="msg"></span> Suscríbete
+						</button>
+					</div>
+
+					<p class="title-footer">Certificaciones</p>
+					<div class="footer-images">
+						<img src="/img/footer1.png" alt="" /> <img src="/img/footer2.png"
+							alt="" /> <img src="/img/footer3.png" alt="" />
+					</div>
+				</div>
+			</div>
+
+			<div class="copyright">
+				<p>Puma Cafe &copy; 2024</p>
+			</div>
+		</div>
+	</footer>
+
+</div>

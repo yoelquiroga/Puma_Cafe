@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Dashboard - Puma Café</title>
+<script src="https://kit.fontawesome.com/2f754fe3e7.js"
+	crossorigin="anonymous"></script>
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet" />
+<link th:href="@{/css/sb-admin-2.css}" rel="stylesheet" />
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+	crossorigin="anonymous" />
+<style>
+.icon-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; flex-shrink: 0; }
+.card-kpi { border-left: 4px solid; border-radius: 0.5rem; }
+.card-kpi .kpi-number { font-size: 1.8rem; font-weight: 800; margin-bottom: 0; }
+.card-kpi .kpi-label { font-size: 0.85rem; color: #858796; margin-bottom: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+.badge-estado { font-size: 0.8rem; padding: 0.25rem 0.65rem; border-radius: 0.25rem; font-weight: 600; }
+.chart-container { position: relative; height: 300px; width: 100%; }
+</style>
+</head>
+<body id="page-top">
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="navbar-nav bg-dark sidebar sidebar-dark accordion"
+			id="accordionSidebar">
+			<a
+				class="sidebar-brand d-flex align-items-center justify-content-center mt-3 mb-3"
+				th:href="@{/menuAdmin}">
+				<div class="sidebar-brand-icon">
+					<img th:src="@{/img/logoPuma.png}" alt="" />
+				</div>
+			</a>
+			<hr class="sidebar-divider my-0 border border-1 border-success" />
+			<li class="nav-item active"><a class="nav-link"
+				th:href="@{/menuAdmin}"> <i class="fas fa-fw fa-tachometer-alt"></i>
+					<span>Dashboard</span></a></li>
+			<hr class="sidebar-divider border border-1 border-success" />
+			<div class="sidebar-heading">Interfaz</div>
+			<li class="nav-item"><a class="nav-link collapsed" href="#"
+				data-toggle="collapse" data-target="#collapsePages"
+				aria-expanded="true" aria-controls="collapsePages"> <i
+					class="fas fa-fw fa-folder"></i> <span>Páginas</span>
+			</a>
+				<div id="collapsePages" class="collapse"
+					aria-labelledby="headingPages" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<h6 class="collapse-header">Panel de Control</h6>
+						<a class="collapse-item" th:href="@{/listaProducto}">Productos</a>
+						<a class="collapse-item" th:href="@{/listaPedidos}">Pedidos</a>
+						<a class="collapse-item" th:href="@{/listaClientes}">Clientes</a>
+						<a class="collapse-item" th:href="@{/encuentranosAdmin}">Consultas</a>
+					</div>
+				</div></li>
+			<hr
+				class="sidebar-divider d-none d-md-block border border-1 border-success" />
+			<div class="text-center d-none d-md-inline">
+				<button class="rounded-circle border-0" id="sidebarToggle"></button>
+			</div>
+		</ul>
+
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<!-- Topbar -->
+				<nav
+					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+					<button id="sidebarToggleTop"
+						class="btn btn-link d-md-none rounded-circle mr-3">
+						<i class="fa fa-bars"></i>
+					</button>
+					<ul class="navbar-nav ml-auto">
+						<div class="topbar-divider d-none d-sm-block"></div>
+						<li class="nav-item dropdown no-arrow"><a
+							class="nav-link dropdown-toggle" href="#" id="userDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> <span
+								class="mr-2 d-none d-lg-inline text-gray-600 small"
+								th:text="${session.nombre}"></span> <img
+								class="img-profile rounded-circle"
+								src="/img/undraw_profile.svg" />
+						</a>
+							<div
+								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+								aria-labelledby="userDropdown">
+								<a class="dropdown-item" href="#" data-toggle="modal"
+									data-target="#logoutModal"> <i
+									class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+									Cerrar Sesion
+								</a>
+							</div></li>
+					</ul>
+				</nav>
+
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<div
+						class="d-sm-flex align-items-center justify-content-between mb-4">
+						<h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+					</div>
+
+					<!-- KPI Cards Row -->
+					<div class="row">
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-success card-kpi shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="kpi-label">Total Ventas</div>
+											<div class="kpi-number text-success">S/ <span
+													th:text="${#numbers.formatDecimal(totalVentas, 1, 2)}"></span></div>
+										</div>
+										<div class="col-auto">
+											<div class="icon-circle"
+												style="background: linear-gradient(135deg, #2e7d32, #4CAF50);">
+												<i class="fas fa-dollar-sign"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-primary card-kpi shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="kpi-label">Pedidos Totales</div>
+											<div class="kpi-number text-primary"
+												th:text="${totalPedidos}"></div>
+										</div>
+										<div class="col-auto">
+											<div class="icon-circle"
+												style="background: linear-gradient(135deg, #0d6efd, #5b9cf5);">
+												<i class="fas fa-shopping-cart"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-info card-kpi shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="kpi-label">Usuarios Activos</div>
+											<div class="kpi-number text-info"
+												th:text="${totalClientes}"></div>
+										</div>
+										<div class="col-auto">
+											<div class="icon-circle"
+												style="background: linear-gradient(135deg, #0dcaf0, #6edff6);">
+												<i class="fas fa-user"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xl-3 col-md-6 mb-4">
+							<div class="card border-left-warning card-kpi shadow h-100 py-2">
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2">
+											<div class="kpi-label">Productos Bajo Stock</div>
+											<div class="kpi-number text-warning"
+												th:text="${productosBajoStock}"></div>
+										</div>
+										<div class="col-auto">
+											<div class="icon-circle"
+												style="background: linear-gradient(135deg, #f59e0b, #fbbf24);">
+												<i class="fas fa-exclamation-triangle"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Chart Row -->
+					<div class="row">
+						<div class="col-lg-12 mb-4">
+							<div class="card shadow">
+								<div
+									class="card-header py-3 d-flex align-items-center justify-content-between"
+									style="background: #151515; color: #efefef;">
+									<h6 class="m-0 font-weight-bold"
+										style="color: #efefef; font-size: 1.1rem;">
+										<i class="fas fa-chart-area mr-2"></i>Ventas de los Últimos
+										Meses
+									</h6>
+								</div>
+								<div class="card-body">
+									<div class="chart-container">
+										<canvas id="ventasChart"
+											th:data-meses="${mesesJson}"
+											th:data-montos="${montosJson}"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Recent Orders Table -->
+					<div class="row">
+						<div class="col-lg-12 mb-4">
+							<div class="card shadow">
+								<div
+									class="card-header py-3 d-flex align-items-center justify-content-between"
+									style="background: #151515; color: #efefef;">
+									<h6 class="m-0 font-weight-bold"
+										style="color: #efefef; font-size: 1.1rem;">
+										<i class="fas fa-clipboard-list mr-2"></i>Pedidos Recientes
+									</h6>
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-bordered table-hover" width="100%">
+											<thead style="background: #2e7d32; color: #fff;">
+												<tr>
+													<th>ID</th>
+													<th>Cliente</th>
+													<th>Fecha</th>
+													<th>Total</th>
+													<th>Estado</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="p : ${ultimosPedidos}">
+													<td th:text="${p.idPedidos}"></td>
+													<td
+														th:text="${p.usuario != null ? (p.usuario.nombre + ' ' + p.usuario.apellido) : 'N/A'}"></td>
+													<td
+														th:text="${#dates.format(p.fecha, 'dd/MM/yyyy')}"></td>
+													<td th:text="'S/ ' + ${#numbers.formatDecimal(p.total, 1, 2)}"></td>
+													<td>
+														<span th:if="${p.estado != null and p.estado.name() == 'PENDIENTE'}"
+															class="badge badge-warning badge-estado">PENDIENTE</span>
+														<span th:if="${p.estado != null and p.estado.name() == 'EN_RUTA'}"
+															class="badge badge-primary badge-estado">EN RUTA</span>
+														<span th:if="${p.estado != null and p.estado.name() == 'ENTREGADO'}"
+															class="badge badge-success badge-estado">ENTREGADO</span>
+														<span th:if="${p.estado != null and p.estado.name() == 'CANCELADO'}"
+															class="badge badge-danger badge-estado">CANCELADO</span>
+													</td>
+												</tr>
+												<tr th:if="${#lists.isEmpty(ultimosPedidos)}">
+													<td colspan="5" class="text-center text-muted">No hay
+														pedidos registrados</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<footer class="sticky-footer bg-white">
+				<div class="container my-auto">
+					<div class="copyright text-center my-auto">
+						<span>Copyright &copy; Puma Café 2024</span>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
+
+	<!-- Logout Modal -->
+	<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="background: #428bca; color: #fff; display: flex; justify-content: center;">
+					<h5 class="modal-title">¿Estas listo para salir?</h5>
+				</div>
+				<div class="modal-body">¿Estás seguro de que quieres cerrar
+					sesión? Esta acción terminará tu sesión actual.</div>
+				<div class="modal-footer">
+					<button class="btn btn-info" type="button" data-dismiss="modal">Cancelar</button>
+					<a class="btn btn-danger custom-border" th:href="@{/logout}">Cerrar
+						Sesión</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Chart.js -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+		crossorigin="anonymous"></script>
+	<script th:src="@{/js/jsjquery.js}"></script>
+	<script th:src="@{/js/sb-admin-2.js}"></script>
+
+	<script>
+	var canvas = document.getElementById('ventasChart');
+	var meses = JSON.parse(canvas.getAttribute('data-meses'));
+	var montos = JSON.parse(canvas.getAttribute('data-montos'));
+
+	new Chart(canvas.getContext('2d'), {
+		type: 'line',
+		data: {
+			labels: meses,
+			datasets: [{
+				label: 'Ventas (S/)',
+				data: montos,
+				borderColor: '#2e7d32',
+				backgroundColor: 'rgba(46, 125, 50, 0.12)',
+				borderWidth: 3,
+				fill: true,
+				tension: 0.35,
+				pointBackgroundColor: '#2e7d32',
+				pointBorderColor: '#fff',
+				pointBorderWidth: 2,
+				pointRadius: 5
+			}]
+		},
+		options: {
+			responsive: true,
+			maintainAspectRatio: false,
+			plugins: {
+				legend: { display: false },
+				tooltip: {
+					callbacks: {
+						label: function(ctx) {
+							return 'S/ ' + ctx.parsed.y.toFixed(2);
+						}
+					}
+				}
+			},
+			scales: {
+				y: {
+					beginAtZero: true,
+					ticks: {
+						callback: function(value) { return 'S/ ' + value.toFixed(2); }
+					}
+				},
+				x: {
+					grid: { display: false }
+				}
+			}
+		}
+	});
+	</script>
+</body>
+</html>

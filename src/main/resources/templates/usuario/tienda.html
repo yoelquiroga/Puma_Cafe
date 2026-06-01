@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIENDA</title>
+<link rel="stylesheet" href="/css/tienda.css">
+<!-- jQuery -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+	<!-- HEADER --- NAVBAR -->
+	<div th:insert="~{usuario/headerFooter.html::header}"></div>
+
+
+	<div class="banerTienda"></div>
+
+	<!-- productos -->
+	<section class="container top-products">
+		<h1 class="heading-1">Nuestros Cafés</h1>
+
+		<div class="container-products" style="display: none">
+			<!-- Producto 1 -->
+			<div class="producto-row">
+				<div class="card-product" th:each="producto:${productosTienda}" th:attr="data-id=${producto.idProductos}">
+					<div class="container-img">
+						<img th:src="@{/imagesProducts/{img} (img=${producto.imagen})}" alt="Cafe Irish" class="product-img" />
+						<div class="button-group">
+							<span> <i class="fa-regular fa-eye"></i>
+							</span> <span> <i class="fa-regular fa-heart"></i>
+							</span> <span> <i class="fa-solid fa-code-compare"></i>
+							</span>
+						</div>
+					</div>
+					<div class="content-card-product">
+						<div class="stars">
+							<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+							<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+							<i class="fa-regular fa-star"></i>
+						</div>
+						<h3 class="product-title" th:text="${producto.nombre}"></h3>
+						<span class="add-cart"> <!-- <i class="fa-solid fa-basket-shopping"></i> -->
+
+							<div class="buttonProduct">
+								<div class="button-wrapper">
+									<div class="textProduct">Agregar al carrito</div>
+									<span class="iconProduct"> <svg
+											xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                          <path
+												d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                        </svg>
+									</span>
+								</div>
+							</div>
+						</span>
+						<p class="price" th:text="'S/ ' + ${producto.precio}">
+							</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="pagination">
+			<!-- <li class="page-item previous-page disable"><a class="page-link" href="#">Prev</a></li>
+          <li class="page-item current-page active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item current-page"><a class="page-link" href="#">2</a></li>
+          <li class="page-item next-page"><a class="page-link" href="#">Next</a></li> -->
+		</div>
+	</section>
+
+
+
+
+	<!-- FOOTER -->
+
+	<div th:insert="~{usuario/headerFooter.html::footer}"></div>
+
+
+
+
+	<script src="/js/carrito.js"></script>
+	<script src="https://kit.fontawesome.com/2f754fe3e7.js" crossorigin="anonymous"></script>
+
+	<script>
+    function getPageList(totalPages, page, maxLength) {
+      function range(start, end) {
+        return Array.from(Array(end - start + 1), (_, i) => i + start);
+      }
+  
+      var sideWidth = maxLength < 9 ? 1 : 2;
+      var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+      var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
+  
+      if (totalPages <= maxLength) {
+        return range(1, totalPages);
+      }
+  
+      if (page <= maxLength - sideWidth - 1 - rightWidth) {
+        return range(1, maxLength - sideWidth - 1).concat(0, range(totalPages - sideWidth + 1, totalPages));
+      }
+  
+      if (page >= totalPages - sideWidth - 1 - rightWidth) {
+        return range(1, sideWidth).concat(0, range(totalPages - sideWidth - 1 - rightWidth - leftWidth, totalPages));
+      }
+  
+      return range(1, sideWidth).concat(0, range(page - leftWidth, page + rightWidth), 0, range(totalPages - sideWidth + 1, totalPages));
+    }
+  
+    $(function () {
+      var numberOfItems = $(".container-products .card-product").length;
+      var limitPerPage = 12; // How many card items visible per page
+      var totalPages = Math.ceil(numberOfItems / limitPerPage);
+      var paginationSize = 3; // Adjusted to show a maximum of 3 page elements
+      var currentPage = 1;
+  
+      function showPage(whichPage) {
+        if (whichPage < 1 || whichPage > totalPages) return false;
+        currentPage = whichPage;
+  
+        $(".container-products .card-product")
+          .hide()
+          .slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage)
+          .show();
+  
+        $(".pagination li").slice(1, -1).remove();
+  
+        getPageList(totalPages, currentPage, paginationSize).forEach((item) => {
+          $("<li>")
+            .addClass("page-item")
+            .addClass(item ? "current-page" : "dots")
+            .toggleClass("active", item === currentPage)
+            .append(
+              $("<a>")
+                .addClass("page-link")
+                .attr({ href: "javascript:void(0)" })
+                .text(item || "...")
+            )
+            .insertBefore(".next-page");
+        });
+  
+        $(".previous-page").toggleClass("disabled", currentPage === 1);
+        $(".next-page").toggleClass("disabled", currentPage === totalPages);
+        return true;
+      }
+  
+      // Pagination buttons setup
+      $(".pagination").append(
+        $("<li>").addClass("page-item previous-page").append(
+          $("<a>")
+            .addClass("page-link")
+            .attr({ href: "javascript:void(0)" })
+            .text("Prev")
+        ),
+        $("<li>").addClass("page-item next-page").append(
+          $("<a>")
+            .addClass("page-link")
+            .attr({ href: "javascript:void(0)" })
+            .text("Next")
+        )
+      );
+  
+      // Show the first page on load
+      $(".container-products").show();
+      showPage(1);
+  
+      // Previous and Next button click handlers
+      $(".pagination").on("click", ".previous-page", function () {
+        showPage(currentPage - 1);
+      });
+  
+      $(".pagination").on("click", ".next-page", function () {
+        showPage(currentPage + 1);
+      });
+  
+      // Handle click on page numbers
+      $(".pagination").on("click", ".current-page", function () {
+        showPage(+$(this).text());
+      });
+    });
+</script>
+
+</body>
+</html>

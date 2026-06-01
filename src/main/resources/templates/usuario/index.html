@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PUMA CAFÉ</title>
+<link rel="stylesheet" href="/css/style.css" />
+<style>
+.header { background: transparent !important; transition: background 0.3s ease; }
+.header .navbar a { font-weight: 600; }
+.header.scrolled { background: rgba(0,0,0,0.9) !important; }
+.header.scrolled .navbar a { font-weight: 400; }
+</style>
+</head>
+<body>
+	<!-- HEADER --- NAVBAR -->
+	<div th:insert="~{usuario/headerFooter :: header}"></div>
+
+
+	<!-- SLIDER -- CARRUSEL -->
+
+	<div class="carousel">
+		<div class="list">
+			<div class="item" style="background-image: url(img/slider4.jpg)">
+				<div class="content">
+					<div class="title">NUESTRA HISTORIA</div>
+					<div class="name">Puma Café</div>
+					<div class="des">Descubre cómo nació Puma Café y la pasión
+						que ponemos en cada taza. Nuestra historia te espera.</div>
+					<div class="btn">
+						<a th:href="@{/historia}">Ver Historia</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="item" style="background-image: url(img/slider.jpg)">
+				<div class="content">
+					<div class="title">COMPRA CAFÉ</div>
+					<div class="name">PERUANO</div>
+					<div class="des">Somos familias produciendo cafés de
+						excelencia.</div>
+					<div class="btn">
+						<a th:href="@{/tienda}">Comprar</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="item" style="background-image: url(img/slider2.jpg)">
+				<div class="content">
+					<div class="title">CAFETERÍA</div>
+					<div class="name">PUMA</div>
+					<div class="des">Disfruta de nuestros deliciosos cafés y
+						bocadillos en un ambiente acogedor. Ven y descubre lo mejor que
+						tenemos para ofrecer.</div>
+					<div class="btn">
+						<a th:href="@{/cafeteria}">Ver más</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="item" style="background-image: url(img/slider3.jpg)">
+				<div class="content">
+					<div class="title">SIEMPRE CERCA</div>
+					<div class="name">A un clic de ti</div>
+					<div class="des">Estamos siempre disponibles para ti.
+						Contáctanos, llámanos o visítanos en nuestra cafetería. ¡Será un
+						placer atenderte!</div>
+					<div class="btn">
+						<a th:href="@{/encuentranos}">Contáctanos</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--next prev button-->
+		<div class="arrows">
+			<button class="prev"><</button>
+			<button class="next">></button>
+		</div>
+
+		<!-- time running -->
+		<div class="timeRunning"></div>
+	</div>
+
+	<!-- CATEGORIAS -->
+
+	<main class="main-content">
+		<section class="container container-features">
+			<div class="card-feature">
+				<i class="fa-solid fa-plane-up"></i>
+				<div class="feature-content">
+					<span>Envío gratuito a nivel mundial</span>
+					<p>En pedido superior a $150</p>
+				</div>
+			</div>
+			<div class="card-feature">
+				<i class="fa-solid fa-wallet"></i>
+				<div class="feature-content">
+					<span>Contrareembolso</span>
+					<p>100% garantía de devolución de dinero</p>
+				</div>
+			</div>
+			<div class="card-feature">
+				<i class="fa-solid fa-gift"></i>
+				<div class="feature-content">
+					<span>Tarjeta regalo especial</span>
+					<p>Ofrece bonos especiales con regalo</p>
+				</div>
+			</div>
+			<div class="card-feature">
+				<i class="fa-solid fa-headset"></i>
+				<div class="feature-content">
+					<span>Servicio al cliente 24/7</span>
+					<p>LLámenos 24/7 al 123-456-7890</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container top-categories">
+			<h1 class="heading-1">Mejores Categorías</h1>
+			<div class="container-categories">
+				<div class="card-category category-clasico">
+					<p>Café Clásicos</p>
+					<span>Ver más</span>
+				</div>
+				<div class="card-category category-especial">
+					<p>Café Especiales</p>
+					<span>Ver más</span>
+				</div>
+				<div class="card-category category-frio">
+					<p>Café Fríos</p>
+					<span>Ver más</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- PRODUCTOS -->
+
+		<section class="container top-products">
+			<h1 class="heading-1">Mejores Productos</h1>
+
+			<div class="container-options">
+				<span>Destacados</span> <span>Más recientes</span> <span>Mejores
+					Vendidos</span>
+			</div>
+
+			<div class="container-products">
+				<!-- Producto 1 -->
+				<div class="producto-row">
+					<div class="card-product" th:each="producto:${productos}" th:attr="data-id=${producto.idProductos}">
+						<div class="container-img">
+							<img th:src="@{/imagesProducts/{img} (img=${producto.imagen})}" alt="Cafe Irish"
+								class="product-img" /> 
+							<div class="button-group">
+								<span> <i class="fa-regular fa-eye"></i>
+								</span> <span> <i class="fa-regular fa-heart"></i>
+								</span> <span> <i class="fa-solid fa-code-compare"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content-card-product">
+							<div class="stars">
+								<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+								<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+								<i class="fa-regular fa-star"></i>
+							</div>
+							<h3 class="product-title" th:text="${producto.nombre}"></h3>
+							<span class="add-cart"> <!-- <i class="fa-solid fa-basket-shopping"></i> -->
+
+								<div class="buttonProduct">
+									<div class="button-wrapper">
+										<div class="textProduct">Agregar al carrito</div>
+										<span class="iconProduct"> <svg
+												xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+												fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                          <path
+													d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                        </svg>
+										</span>
+									</div>
+								</div>
+							</span>
+							<p class="price" th:text="'S/ ' + ${producto.precio}">
+							</p>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</section>
+
+		<!-- GALERIA DE IMAGENES -->
+		<section class="seccion-gallery">
+			<div class="contenedor_galeria">
+				<div class="box">
+					<img src="../img/galeria2.jpg" alt="" />
+				</div>
+				<div class="box">
+					<img src="../img/galeria1.jpg" alt="" />
+				</div>
+				<div class="box">
+					<!-- <video autoplay muted controls src="../videos/TECNOLOGICA ECOLOGIA FUTURO.mp4"></video> -->
+					<iframe width="560" height="315"
+						src="https://www.youtube.com/embed/jnbEOyH1PVM?autoplay=1&mute=1&controls=1&loop=1&playlist=jnbEOyH1PVM"
+						title="YouTube video player" frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+					</iframe>
+				</div>
+			</div>
+		</section>
+
+		<!-- productos -->
+		<section class="container top-products">
+			<h1 class="heading-1">Nuestros Cafés</h1>
+
+			<div class="container-products">
+				<!-- Producto 1 -->
+				<div class="producto-row">
+					<div class="card-product" th:each="producto:${cafes}" th:attr="data-id=${producto.idProductos}">
+						<div class="container-img">
+							<img th:src="@{/imagesProducts/{img} (img=${producto.imagen})}" alt="Cafe Irish" class="product-img" />
+							<div class="button-group">
+								<span> <i class="fa-regular fa-eye"></i>
+								</span> <span> <i class="fa-regular fa-heart"></i>
+								</span> <span> <i class="fa-solid fa-code-compare"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content-card-product">
+							<div class="stars">
+								<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+								<i class="fa-solid fa-star"></i> <i class="fa-solid fa-star"></i>
+								<i class="fa-regular fa-star"></i>
+							</div>
+							<h3 class="product-title" th:text="${producto.nombre}"></h3>
+							<span class="add-cart"> <!-- <i class="fa-solid fa-basket-shopping"></i> -->
+
+								<div class="buttonProduct">
+									<div class="button-wrapper">
+										<div class="textProduct">Agregar al carrito</div>
+										<span class="iconProduct"> <svg
+												xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+												fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+                          <path
+													d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"></path>
+                        </svg>
+										</span>
+									</div>
+								</div>
+							</span>
+							<p class="price" th:text="'S/ ' + ${producto.precio}">
+							</p>
+						</div>
+					</div>
+					
+
+				</div>
+			</div>
+		</section>
+
+
+		<!-- SECCION HISTORIA -->
+		<div class="contenido-historia">
+			<div class="hero">
+				<div class="hero_content">
+					<div class="titulo-historia">
+						<span> Nuestra <span class="summer">Historia</span>
+						</span>
+					</div>
+					<div class="descripcion-historia">
+						<span> Puma Café nace el 2011, con el objetivo de llevar
+							los mejores cafés peruanos al universo de consumidores en todo el
+							Perú, construir una cadena de suministro basado en la calidad,
+							desarrollar un canal comercial en el mercado interno que genere
+							cultura cafetalera de calidad. </span>
+					</div>
+					<!-- <a href="#" class="boton-historia">Más sobre nuestra Historia</a> -->
+					<a th:href="@{/historia}" class="button">Más sobre nuestra
+						Historia</a>
+				</div>
+				<div class="hero_image">
+					<img src="/img/historia.jpg" alt="historia" />
+				</div>
+			</div>
+		</div>
+	</main>
+
+
+	<!-- Footer -->
+	<div th:insert="~{usuario/headerFooter.html :: footer}"></div>
+
+
+	<script src="/js/script.js"></script>
+	<script src="/js/carrito.js"></script>
+	<script src="https://kit.fontawesome.com/2f754fe3e7.js" crossorigin="anonymous"></script>
+	<script>
+	window.addEventListener('scroll', function() {
+		var h = document.querySelector('.header');
+		if (window.scrollY > 50) { h.classList.add('scrolled'); }
+		else { h.classList.remove('scrolled'); }
+	});
+	</script>
+</body>
+</html>

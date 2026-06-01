@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+
+<title>Puma Café</title>
+<style>
+.sidebar-brand-icon img {
+	width: 90px;
+}
+
+</style>
+<!-- Custom fonts for this template-->
+<script src="https://kit.fontawesome.com/2f754fe3e7.js"
+	crossorigin="anonymous"></script>
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet" />
+
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.css}" rel="stylesheet" />
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+	crossorigin="anonymous" />
+
+<link
+	href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.css"
+	rel="stylesheet">
+	
+</head>
+
+<body id="page-top">
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<ul class="navbar-nav bg-dark sidebar sidebar-dark accordion"
+			id="accordionSidebar">
+			<!-- Sidebar - Brand -->
+			<a	
+				class="sidebar-brand d-flex align-items-center justify-content-center mt-3 mb-3"
+				th:href="@{/menuAdmin}">
+				<div class="sidebar-brand-icon">
+					<!-- <i class="fa-solid fa-bus"></i> -->
+					<img th:src="@{/img/logoPuma.png}" alt="" />
+				</div> <!-- <div class="sidebar-brand-text mx-3">Puma Café</div> -->
+			</a>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider my-0 border border-1 border-success" />
+
+			<!-- Nav Item - Dashboard -->
+			<li class="nav-item active"><a class="nav-link"
+				th:href="@{/menuAdmin}"> <i class="fas fa-fw fa-tachometer-alt"></i>
+					<span>Dashboard</span></a></li>
+
+			<!-- Divider -->
+			<hr class="sidebar-divider border border-1 border-success" />
+
+			<!-- Heading -->
+
+			<!-- Heading -->
+			<div class="sidebar-heading">Interfaz</div>
+
+			<!-- Nav Item - Pages Collapse Menu -->
+			<li class="nav-item"><a class="nav-link collapsed" href="#"
+				data-toggle="collapse" data-target="#collapsePages"
+				aria-expanded="true" aria-controls="collapsePages"> <i
+					class="fas fa-fw fa-folder"></i> <span>Páginas</span>
+			</a>
+				<div id="collapsePages" class="collapse"
+					aria-labelledby="headingPages" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<h6 class="collapse-header">Panel de Control</h6>
+						<a class="collapse-item" th:href="@{/listaProducto}">Productos</a>
+						<a class="collapse-item" th:href="@{/listaPedidos}">Pedidos</a> 
+						<a class="collapse-item" th:href="@{/listaClientes}">Clientes</a>
+						<a class="collapse-item" th:href="@{/encuentranosAdmin}">Consultas</a>
+					</div>
+				</div></li>
+
+			<!-- Divider -->
+			<hr
+				class="sidebar-divider d-none d-md-block border border-1 border-success" />
+
+			<!-- Sidebar Toggler (Sidebar) -->
+			<div class="text-center d-none d-md-inline">
+				<button class="rounded-circle border-0" id="sidebarToggle"></button>
+			</div>
+		</ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Main Content -->
+			<div id="content">
+				<!-- Topbar -->
+				<nav
+					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+					<!-- Sidebar Toggle (Topbar) -->
+					<button id="sidebarToggleTop"
+						class="btn btn-link d-md-none rounded-circle mr-3">
+						<i class="fa fa-bars"></i>
+					</button>
+
+					<!-- Topbar Navbar -->
+					<ul class="navbar-nav ml-auto">
+						<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+						<li class="nav-item dropdown no-arrow d-sm-none"><a
+							class="nav-link dropdown-toggle" href="#" id="searchDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> <i class="fas fa-search fa-fw"></i>
+						</a> <!-- Dropdown - Messages -->
+							<div
+								class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+								aria-labelledby="searchDropdown">
+								<form class="form-inline mr-auto w-100 navbar-search">
+									<div class="input-group">
+										<input type="text"
+											class="form-control bg-light border-0 small"
+											placeholder="Search for..." aria-label="Search"
+											aria-describedby="basic-addon2" />
+										<div class="input-group-append">
+											<button class="btn btn-primary" type="button">
+												<i class="fas fa-search fa-sm"></i>
+											</button>
+										</div>
+									</div>
+								</form>
+							</div></li>
+
+
+
+
+						<div class="topbar-divider d-none d-sm-block"></div>
+
+						<!-- Nav Item - User Information -->
+						<li class="nav-item dropdown no-arrow"><a
+							class="nav-link dropdown-toggle" href="#" id="userDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> <span
+								class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${session.nombre}"></span>
+								<img class="img-profile rounded-circle"
+								src="/img/undraw_profile.svg" />
+						</a> <!-- Dropdown - User Information -->
+							<div
+								class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+								aria-labelledby="userDropdown">
+								
+							
+								<a class="dropdown-item" href="#" data-toggle="modal"
+									data-target="#logoutModal"> <i
+									class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+									Cerrar Sesion
+								</a>
+							</div></li>
+					</ul>
+				</nav>
+				<!-- End of Topbar -->
+				
+				<div class="container-fluid">
+					<!-- DataTales Example -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-success">Consultas</h6>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered" id="dataTable" width="100%">
+									<thead>
+										<tr>
+											<th>ID Contacto</th>
+
+											<th>Nombre</th>
+											<th>Apellido</th>
+											<th>Email</th>
+											<th>Telefono</th>
+											<th>Mensaje</th>
+											<th>Fecha</th>
+											<th>Acción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="contacto:${listaContacto}">
+											<td th:text="${contacto.idContacto}"></td>
+
+											<td
+												th:text="${contacto.nombre}">
+											</td>
+											<td th:text="${contacto.apellido}"></td>
+											<td th:text="${contacto.email}"></td>
+											<!-- Formato de fecha -->
+											<td th:text="${contacto.telefono}"></td>
+											<td th:text="${contacto.mensaje}"></td>
+											<td th:text="${#dates.format(contacto.fecha, 'dd/MM/yyyy')}"></td>
+											<td class="text-center">
+												<a class="btn btn-danger btn-eliminar"
+													th:data-id="${contacto.idContacto}"
+													th:data-nombre="${contacto.nombre}"
+													th:data-apellido="${contacto.apellido}"
+													th:href="@{/deleteContacto/{id}(id=${contacto.idContacto})}">
+													<i class="fa-solid fa-trash"></i>
+												</a>
+											</td>
+											
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+<!-- End of Main Content -->
+
+				<!-- Footer -->
+				<footer class="sticky-footer bg-white">
+					<div class="container my-auto">
+						<div class="copyright text-center my-auto">
+							<span>Copyright &copy; Puma Café 2024</span>
+						</div>
+					</div>
+				</footer>
+				<!-- End of Footer -->
+			</div>
+			<!-- End of Content Wrapper -->
+		</div>
+		<!-- End of Page Wrapper -->
+
+		<!-- Scroll to Top Button-->
+		<a class="scroll-to-top rounded" href="#page-top"> <i
+			class="fas fa-angle-up"></i>
+		</a>
+
+		<!-- Logout Modal-->
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">¿Estas listo
+							para salir?</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">¿Estás seguro de que quieres cerrar
+						sesión? Esta acción terminará tu sesión actual.</div>
+					<div class="modal-footer">
+						<div class="modal-footer">
+							<button class="btn btn-info" type="button" data-dismiss="modal">Cancelar</button>
+							<a class="btn btn-danger custom-border" th:href="@{/logout}">Cerrar Sesión</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Bootstrap 4 core JavaScript-->
+		<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+			crossorigin="anonymous"></script>
+
+		<!-- Core plugin JavaScript-->
+		<script th:src="@{/js/jsjquery.js}"></script>
+
+		<!-- Custom scripts for all pages-->
+		<script th:src="@{/js/sb-admin-2.js}"></script>
+
+		<script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+		<script
+			src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
+		<script th:src="@{/js/datatable.js}"></script>
+
+		<!-- SweetAlert2 -->
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+		<script>
+		$(document).on('click', '.btn-eliminar', function(e) {
+			e.preventDefault();
+			var btn = $(this);
+			var nombre = btn.data('nombre');
+			var apellido = btn.data('apellido');
+			var href = btn.attr('href');
+			Swal.fire({
+				title: '¿Estás seguro?',
+				text: '¿Eliminar contacto de ' + nombre + ' ' + apellido + '?',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#dc3545',
+				cancelButtonColor: '#6c757d',
+				confirmButtonText: 'Sí, eliminar',
+				cancelButtonText: 'Cancelar',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					window.location.href = href;
+				}
+			});
+		});
+		</script>
+</body>
+</html>
