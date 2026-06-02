@@ -98,5 +98,4 @@ spring.datasource.password=tu_contraseña
 - **Administrador:** Usuario registrado en BD con perfil `ADMIN`
 - **Cliente:** Registrarse desde la página de inicio de sesión
 
-## 📄 Licencia
-Proyecto académico — sin fines comerciales.
+
