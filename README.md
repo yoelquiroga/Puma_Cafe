@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="src/main/resources/static/img/logoPuma.png" alt="PUMA CAFÉ Logo" width="200">
+</p>
+
 # PUMA CAFÉ
 
 ## 📋 Descripción
@@ -119,7 +123,3 @@ Abrir PumaCafeJpaApplication.java → Run As → Java Application
 http://localhost:8080
 ```
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f0b9fac5d577257c530a331887c8ea404feb4588
