@@ -1,37 +1,33 @@
-# PUMA CAFÉ — Sistema de Comercio Electrónico
+# PUMA CAFÉ
 
 ## 📋 Descripción
-Plataforma web para cafetería con catálogo de productos, carrito de compras, gestión de pedidos y panel administrativo. Los clientes pueden navegar, realizar pedidos y consultar su historial. Los administradores gestionan productos, pedidos, clientes y visualizan métricas del negocio.
+
+Sistema de comercio electrónico construido para cafeterías que aún operan con ventas presenciales como único canal, donde la pérdida de clientes digitales, la gestión manual de pedidos y la falta de trazabilidad eran el problema del día a día. Se implementó un carrito de compras persistente con notificaciones toast, autenticación segura con BCrypt con migración automática de credenciales legacy, generación programática de boletas PDF con OpenPDF incluyendo desglose de IGV, y un dashboard administrativo con Chart.js para visualización de ventas mensuales y KPIs en tiempo real. El resultado es un canal de ventas digital funcional que permite a los clientes navegar el catálogo, realizar pedidos con seguimiento de estado y recibir su boleta digital, mientras los administradores gestionan productos, pedidos y contactos desde un panel centralizado con métricas del negocio.
 
 ## ✨ Funcionalidades
 
-- **Catálogo de productos** con categorías (café preparado, grano, molido) y filtros
-- **Carrito de compras persistente** en navegador (localStorage) sin recargar
-- **Registro y autenticación** de usuarios con contraseñas hasheadas (BCrypt)
-- **Gestión de pedidos** con trazabilidad de estados (pendiente, en ruta, entregado, cancelado)
-- **Boleta de venta en PDF** profesional con logo, IGV y detalle de productos
-- **Dashboard administrativo** con KPIs, gráfico de ventas mensuales y tabla de pedidos recientes
-- **Formulario de contacto** con almacenamiento y vista administrativa
-- **Notificaciones toast** y confirmaciones con SweetAlert2
+- **Autenticación con BCrypt y sesión server-side** — Login unificado para clientes y administradores con migración automática de contraseñas legacy a BCrypt mediante CommandLineRunner.
+- **Carrito de compras persistente** — Gestión de productos, cantidades y totales sincronizada entre páginas sin llamadas al servidor, con notificaciones toast por cada acción.
+- **Dashboard administrativo con métricas** — KPIs de ventas totales (excluyendo cancelados), pedidos activos, conteo de usuarios y productos con stock bajo, más gráfico de ventas mensuales con Chart.js.
+- **Boleta de venta en PDF profesional** — Documento generado con OpenPDF que incluye logo corporativo, datos del cliente, tabla de productos con zebra striping, desglose de IGV 18% y estado del pedido.
+- **Gestión de pedidos con trazabilidad de estados** — CRUD completo con cuatro estados (pendiente, en ruta, entregado, cancelado) y actualización desde el panel administrativo.
+- **Catálogo de productos con carga de imágenes** — CRUD de productos categorizados (café preparado, grano, molido) con subida de imágenes al sistema de archivos local.
+- **Formulario de contacto con persistencia** — Mensajes de clientes almacenados en base de datos con interfaz administrativa para visualización y eliminación.
 
 ## 🛠 Stack Tecnológico
 
-### Backend
-- **Lenguaje:** Java 17
-- **Framework:** Spring Boot 3.3.4
-- **ORM:** Spring Data JPA, Hibernate
-- **Seguridad:** spring-security-crypto (BCryptPasswordEncoder)
-- **Generación PDF:** OpenPDF 1.3.30
-- **Build:** Maven
-
-### Frontend
-- **Templating:** Thymeleaf
-- **UI Framework:** Bootstrap 4/5
-- **JavaScript:** jQuery 3, JavaScript vanilla
-- **Librerías:** Chart.js, SweetAlert2, DataTables
-
-### Base de Datos
-- **Relacional:** MySQL 8
+| Capa | Tecnología |
+|---|---|
+| Backend | Java 17, Spring Boot 3.3.4 |
+| ORM / Data | Spring Data JPA, Hibernate |
+| Seguridad | spring-security-crypto (BCryptPasswordEncoder) |
+| PDF | OpenPDF 1.3.30 (LibrePDF) |
+| Frontend Templating | Thymeleaf |
+| Frontend UI | Bootstrap 4/5 |
+| Librerías JS | jQuery 3, Chart.js, SweetAlert2, DataTables |
+| Base de Datos | MySQL 8 |
+| Build | Maven 3.8+ |
+| Testing | JUnit 5, Spring Boot Test |
 
 ## 📁 Estructura del Proyecto
 
@@ -39,64 +35,87 @@ Plataforma web para cafetería con catálogo de productos, carrito de compras, g
 PumaCafe/
 ├── pom.xml                          # Dependencias Maven
 ├── src/main/java/com/springboot/
-│   ├── PumaCafeJpaApplication.java  # Punto de entrada
+│   ├── PumaCafeJpaApplication.java  # Punto de entrada de la aplicación
 │   ├── ResourceWebConfiguration.java
 │   ├── PasswordMigrationComponent.java
-│   ├── controllers/                 # Controladores MVC
+│   ├── controllers/                 # Controladores MVC (8 clases)
 │   ├── models/
-│   │   ├── entiys/                  # Entidades JPA
-│   │   ├── repository/              # Repositorios JPA
-│   │   ├── service/                 # Interfaces de servicio
-│   │   └── serviceImplements/       # Implementaciones de servicio
+│   │   ├── entiys/                  # Entidades JPA (6 clases)
+│   │   ├── repository/              # Repositorios Spring Data JPA (5 interfaces)
+│   │   ├── service/                 # Interfaces de servicio (6 interfaces)
+│   │   └── serviceImplements/       # Implementaciones de servicio (6 clases)
 ├── src/main/resources/
-│   ├── application.properties       # Configuración de la aplicación
+│   ├── application.properties.example
 │   ├── static/
-│   │   ├── css/                     # Hojas de estilo
-│   │   └── js/                      # Scripts JavaScript
+│   │   ├── css/                     # Hojas de estilo (6 archivos)
+│   │   ├── js/                      # Scripts JavaScript (6 archivos)
+│   │   └── img/                     # Imágenes de banners y slider
 │   └── templates/
-│       ├── administrador/           # Vistas del panel admin
-│       └── usuario/                 # Vistas del cliente
-├── imagesProducts/                  # Imágenes de productos
-└── PORTFOLIO_README.md              # Documentación de portafolio
+│       ├── administrador/           # Plantillas del panel admin (9 archivos)
+│       └── usuario/                 # Plantillas del cliente (10 archivos)
+└── imagesProducts/                  # Imágenes subidas de productos
 ```
+
+## 🏗 Arquitectura
+
+```
+Cliente (Browser) → Thymeleaf Templates → Spring MVC Controllers
+                                                    ↓
+                                          Service Layer (Interface + Impl)
+                                                    ↓
+                                           Repository Layer (JPA)
+                                                    ↓
+                                               MySQL 8
+```
+
+- **Estilo Arquitectónico:** Monolito Modular con patrón MVC.
+- **Patrón Repository:** Cada entidad tiene su repositorio JPA que encapsula el acceso a datos. Los repositorios incluyen tanto métodos derivados de nombres como native queries para KPIs del dashboard.
+- **Patrón Service Layer:** Separación entre interfaces e implementaciones. Los controladores dependen de interfaces, no de clases concretas, permitiendo desacoplamiento y testabilidad.
+- **Patrón Dependency Injection:** Spring gestiona todas las dependencias vía @Autowired.
+- **Seguridad:** Autenticación basada en HttpSession con verificación manual en cada controlador admin mediante atributo de sesión `perfil`. Passwords hasheadas con BCrypt y migración automática de credenciales legacy al arranque.
+- **Transacciones:** Métodos críticos (creación de pedidos con detalles) anotados con `@Transactional` para garantizar atomicidad en operaciones multi-tabla.
+- **PDF Generation:** BoletaService implementa generación programática de documentos PDF con OpenPDF, utilizando posicionamiento absoluto y tablas con estilos condicionales (zebra striping).
 
 ## 🚀 Requisitos Previos
 
 - **JDK 17** o superior
 - **Maven 3.8+**
 - **MySQL 8**
-- **IDE:** Eclipse (recomendado) o IntelliJ IDEA
+- **IDE:** Eclipse o IntelliJ IDEA
 
 ## 🔧 Configuración y Ejecución
 
-### 1. Clonar el repositorio
+1. Clonar el repositorio:
 ```bash
 git clone <url-del-repositorio>
 cd PumaCafe
 ```
 
-### 2. Configurar base de datos
-Crear una base de datos MySQL llamada `puma_cafe` y ejecutar el script SQL ubicado en `BD_PUMA_CAFE.txt` para crear las tablas y datos iniciales.
-
-### 3. Configurar conexión a BD
-Editar `src/main/resources/application.properties` con tus credenciales:
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/puma_cafe
-spring.datasource.username=tu_usuario
-spring.datasource.password=tu_contraseña
+2. Configurar la base de datos:
+```bash
+mysql -u tu-usuario -p -e "CREATE DATABASE puma_cafe"
+mysql -u tu-usuario -p puma_cafe < BD_PUMA_CAFE.txt
 ```
 
-### 4. Ejecutar en Eclipse
-1. Importar el proyecto: `File → Import → Maven → Existing Maven Projects`
-2. Seleccionar la carpeta `PumaCafe` y hacer clic en `Finish`
-3. Esperar a que Maven descargue las dependencias
-4. Abrir `src/main/java/com/springboot/PumaCafeJpaApplication.java`
-5. Click derecho → `Run As → Java Application`
-6. La aplicación iniciará en `http://localhost:8080`
+3. Configurar credenciales de base de datos:
+```bash
+cp src/main/resources/application.properties.example src/main/resources/application.properties
+```
 
-### 5. Credenciales de acceso
-- **Administrador:** Usuario registrado en BD con perfil `ADMIN`
-- **Cliente:** Registrarse desde la página de inicio de sesión
+Editar `application.properties`:
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/puma_cafe
+spring.datasource.username=tu-usuario
+spring.datasource.password=tu-contraseña
+```
 
-## 📄 Licencia
-Proyecto académico — sin fines comerciales.
+4. Ejecutar la aplicación desde Eclipse:
+```
+Abrir PumaCafeJpaApplication.java → Run As → Java Application
+```
+
+5. Acceder en el navegador:
+```
+http://localhost:8080
+```
+
