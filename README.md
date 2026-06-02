@@ -119,3 +119,7 @@ Abrir PumaCafeJpaApplication.java → Run As → Java Application
 http://localhost:8080
 ```
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> f0b9fac5d577257c530a331887c8ea404feb4588
